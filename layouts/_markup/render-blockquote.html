@@ -1,0 +1,45 @@
+{{ $icons := site.Data.callout.icons }}
+{{ $lightStyles := site.Data.callout.styles_light }}
+{{ $darkStyles := site.Data.callout.styles_dark }}
+{{ $default := site.Data.callout.default }}
+
+{{ $light := index $lightStyles .AlertType | default (index $default "light") }}
+{{ $dark := index $darkStyles .AlertType | default (index $default "dark") }}
+
+{{ if eq .Type "alert" }}
+  <style>
+    [data-theme="light"] .callout--{{ .AlertType }} {
+      --callout-bg: {{ $light.bg }};
+      --callout-border: {{ $light.border }};
+      --callout-color: {{ $light.color }};
+    }
+    [data-theme="dark"] .callout--{{ .AlertType }} {
+      --callout-bg: {{ $dark.bg }};
+      --callout-border: {{ $dark.border }};
+      --callout-color: {{ $dark.color }};
+    }
+  </style>
+  <aside class="callout callout--{{ .AlertType }}">
+    <strong class="callout__header">
+      {{ with index $icons .AlertType }}
+        {{ partial "components/icon.html" (dict "name" . "size" 24) }}
+      {{ else }}
+        {{ partial "components/icon.html" (dict "name" "pen" "size" 24) }}
+      {{ end }}
+      <strong class="callout__title">
+        {{ with .AlertTitle }}
+          {{ . }}
+        {{ else }}
+          {{ or (i18n .AlertType) (title .AlertType) }}
+        {{ end }}
+      </strong>
+    </strong>
+    <section class="callout__body">
+      {{ .Text }}
+    </section>
+  </aside>
+{{ else }}
+  <blockquote>
+    {{ .Text }}
+  </blockquote>
+{{ end }}

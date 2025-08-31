@@ -1,0 +1,54 @@
+@use "../abstracts/breakpoints" as b;
+@use "../abstracts/mixins" as m;
+@use "../abstracts/variables" as v;
+
+// ======================
+// SEARCH AREA
+// ======================
+.search {
+  width: 100%;
+
+  &__label {
+    @include m.flex-justify(center, center);
+    gap: 1em;
+    width: 100%;
+    padding: 0.5em 1.5em;
+    border: 1px solid var(--base-border);
+    border-radius: 0.25em;
+    box-shadow: var(--base-shadow);
+  }
+
+  &__input {
+    width: 100%;
+    outline: none;
+
+    &::placeholder {
+      color: var(--third-color);
+    }
+  }
+}
+
+.results {
+  margin-block-start: 2em;
+}
+
+.result-item {
+  margin-block: 1em;
+  border: 1px solid var(--base-border);
+  border-radius: 0.25em;
+  padding: 1em;
+  box-shadow: var(--second-shadow);
+
+  &__title {
+    font-family: v.$font-serif;
+    font-size: v.$fs-8xl;
+    color: var(--second-color);
+    text-decoration: none;
+    text-shadow: var(--second-text-shadow);
+  }
+
+  &__description {
+    font-size: v.$fs-sm;
+    color: var(--third-color);
+  }
+}

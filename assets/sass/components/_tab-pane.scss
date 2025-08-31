@@ -1,0 +1,61 @@
+@use "../abstracts/breakpoints" as b;
+@use "../abstracts/mixins" as m;
+@use "../abstracts/variables" as v;
+
+.tabpane {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1em;
+
+  &__input {
+    position: absolute;
+    opacity: 0;
+  }
+
+  &__label {
+    @include m.transition(all);
+    position: relative;
+    flex-shrink: 1;
+    padding: 0.5em 1em;
+    background-color: var(--second-bg);
+    border: solid 1px var(--base-border);
+    border-left-width: 1px;
+    border-right-width: 1px;
+    font-weight: 600;
+    cursor: pointer;
+    z-index: 50;
+    margin-left: -1px;
+    user-select: none;
+    color: var(--primary-text);
+
+    &:first-of-type {
+      border-top-left-radius: 0.25em;
+      border-left-width: 1px;
+      margin-left: 0px;
+    }
+    &:last-of-type {
+      border-top-right-radius: 0.25em;
+      border-right-width: 1px;
+    }
+  }
+
+  &__panel {
+    order: 999;
+    display: none;
+    width: 100%;
+    margin-top: -1px;
+    padding: 1em;
+    border: solid 1px var(--base-border);
+    box-shadow: var(--second-shadow);
+  }
+
+  &__input:checked + &__label {
+    background-color: var(--base-bg);
+    border-bottom-color: var(--base-bg);
+    color: var(--second-color);
+  }
+
+  &__input:checked + &__label + &__panel {
+    display: flow-root;
+  }
+}

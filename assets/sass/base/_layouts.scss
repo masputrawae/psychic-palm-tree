@@ -1,0 +1,199 @@
+@use "../abstracts/breakpoints" as b;
+@use "../abstracts/mixins" as m;
+@use "../abstracts/variables" as v;
+
+html {
+  @include m.transition(all);
+}
+
+// ======================
+// HEADER AREA
+// ======================
+.site-header {
+  @include m.transition(all);
+  @include m.flex-justify(space-between, center);
+
+  padding-inline: calc(1.5rem * 0.5);
+  height: 4em;
+  background-color: var(--second-bg);
+  border-bottom: 1px solid var(--base-border);
+  box-shadow: var(--second-shadow);
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 100;
+
+  &__col {
+    @include m.flex-justify(center, center);
+    gap: 1rem;
+  }
+
+  &__title {
+    font-family: v.$font-serif;
+    font-size: v.$fs-10xl;
+  }
+}
+
+// ======================
+// SIDEBAR AREA
+// ======================
+.site-sidebar {
+  @include m.custom-scrollbar(var(--base-border), var(--primary));
+  @include m.transition(all);
+
+  position: fixed;
+  inset-inline-start: 0;
+  inset-block-start: 0;
+  background-color: var(--second-bg);
+  border-inline-end: 1px solid var(--base-border);
+  z-index: 200;
+  width: 18em;
+  height: 100dvh;
+  padding: 1em;
+  overflow-y: auto;
+  visibility: hidden;
+  transform: translateX(-100%);
+
+  &__btn {
+    position: absolute;
+    inset-inline-end: 1em;
+    inset-block-start: 1em;
+  }
+
+  &.is-active {
+    visibility: visible;
+    transform: translateX(0%);
+  }
+
+  // BRAND
+  .brand {
+    display: grid;
+    place-content: center;
+    text-align: center;
+    margin-block: 0em 4em;
+
+    &__logo {
+      @include m.size(150px);
+      filter: drop-shadow(var(--second-shadow));
+    }
+
+    &__title {
+      font-family: v.$font-serif;
+      font-weight: 700;
+      font-size: v.$fs-10xl;
+      text-shadow: var(--second-text-shadow);
+    }
+  }
+}
+
+// ======================
+// MAIN AREA
+// ======================
+.site-main {
+  @include m.transition(all);
+  min-height: 50dvh;
+  background-color: var(--base-bg)
+}
+
+// ======================
+// FOOTER AREA
+// ======================
+.site-footer {
+  @include m.transition(all);
+  border-top: 1px solid var(--base-border);
+  padding-inline: 1.5em;
+  background-color: var(--second-bg);
+  box-shadow: var(--second-shadow);
+
+  &__copyright {
+    font-family: v.$font-serif;
+    padding-block: 0.5em 2em;
+
+    a {
+      color: var(--primary-text);
+      font-weight: 700;
+      text-decoration: underline;
+    }
+  }
+
+  .footer-link {
+    margin-block: 1em 0.5em;
+
+    &__label {
+      display: block;
+      font-size: v.$fs-10xl;
+      font-family: v.$font-serif;
+      margin-block: 1em 0.5em;
+      border-block-end: 1px dotted var(--base-border);
+    }
+
+    &__item {
+      @include m.flex-justify(start, center);
+      gap: 0.5em;
+      padding: 0.25em 0.75em;
+
+      color: var(--primary-text);
+
+      &--social {
+        margin-block: 1em;
+      }
+
+      &:hover {
+        color: var(--primary-text-hover);
+      }
+    }
+  }
+}
+
+@include b.min(lg) {
+  .site-body {
+    display: grid;
+    grid-template-columns: 18em minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-areas:
+      "sidebar content"
+      "sidebar content"
+      "sidebar footer";
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .site-header {
+    display: none;
+  }
+
+  .site-sidebar {
+    grid-area: sidebar;
+    transform: translateX(0%);
+    visibility: visible;
+    position: sticky;
+
+    &__btn {
+      display: none;
+    }
+  }
+
+  .site-main {
+    grid-area: content;
+  }
+
+  .site-footer {
+    grid-area: footer;
+  }
+}
+
+#linkpreview {
+  @include m.custom-scrollbar(var(--base-border), var(--primary-text));
+  display: none;
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  width: 400px;
+  max-height: 400px;
+  overflow: auto;
+  z-index: 999999999;
+  border: 1px solid var(--base-border);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: var(--base-shadow);
+  background-color: var(--second-bg);
+}

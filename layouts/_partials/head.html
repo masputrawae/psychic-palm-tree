@@ -1,0 +1,52 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{{ partialCached "head/embed-css.html" . }}
+{{ partialCached "head/embed-js.html" . }}
+
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+{{- $description := "" -}}
+{{- if .Params.description -}}
+  {{- $description = .Params.description | plainify | htmlEscape -}}
+{{- else -}}
+  {{- $description = .Summary | plainify | truncate 160 | htmlEscape -}}
+{{- end -}}
+
+<link rel="canonical" href="{{- .Permalink -}}" />
+<meta name="robots" content="index, follow" />
+<meta name="description" content="{{- $description -}}" />
+<meta name="author" content="{{- .Params.author | default site.Params.author -}}"/>
+{{- if .Params.tags -}}
+  <meta
+    name="keywords"
+    content="{{- with .Params.tags -}}
+      {{- delimit . ", " -}}
+    {{- else -}}
+      {{- $.Site.Params.keywords -}}
+    {{- end -}}"
+  />
+{{- end -}}
+
+{{ partial "google_analytics.html" . }}
+{{ partial "opengraph.html" . }}
+{{ partial "schema.html" . }}
+{{ partial "twitter_cards.html" . }}
+
+{{- range site.Params.favicons -}}
+  <link
+    rel="{{- .rel -}}"
+    {{- with .type -}}type="{{- . -}}"{{- end -}}
+    {{- with .size -}}sizes="{{- . -}}"{{- end -}}
+    href="{{- .href | absURL -}}"
+  />
+{{- end -}}
+
+<link rel="manifest" href="{{- "manifest.json" | absURL -}}" />
+<link rel="sitemap" type="application/xml" href="{{- "sitemap.xml" | absURL -}}"/>
+
+{{ with .OutputFormats.Get "rss" }}
+  {{ printf `<link rel=%q type=%q href=%q title=%q>` .Rel .MediaType.Type .Permalink site.Title | safeHTML }}
+{{ end }}
+
+<meta name="robots" content="index, follow" />
+{{ partialCached "head/sass.html" . }}
+{{ partialCached "head/js.html" . }}

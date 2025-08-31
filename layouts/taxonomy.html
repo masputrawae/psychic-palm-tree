@@ -1,0 +1,43 @@
+{{ define "main" }}
+  <article class="markdown view-content view-content--is-active" id="viewPage">
+    <h1>{{ .Title }}</h1>
+    {{ .Content | safeHTML }}
+    <nav class="grid grid--col-2 taxonomy">
+        {{ $current := "" }}
+
+        {{- /* === LOOP TERMS ALPHABETICAL === */}}
+        {{ range .Data.Terms.Alphabetical }}
+          {{ $first := upper (substr .Term 0 1) }}
+
+          {{- /* --- Jika huruf baru --- */}}
+          {{ if ne $first $current }}
+            {{- /* Tutup blok sebelumnya jika ada --- */}}
+            {{ if ne $current "" }}
+                </ul>
+              </div>
+            {{ end }}
+
+            {{- /* Buka blok baru --- */}}
+            <div class="taxonomy__group">
+              <h2>{{ $first }}</h2>
+              <ul>
+            {{ $current = $first }}
+          {{ end }}
+
+          {{- /* --- Isi item --- */}}
+          <li>
+            <a href="{{ .Page.RelPermalink }}">
+              {{ $term := replaceRE "[-_]+" " " .Term | title }}
+              <span>{{ $term }}</span>
+              <span>[ {{ .Count }} ]</span>
+            </a>
+          </li>
+        {{ end }}
+        {{- /* === END LOOP === */}}
+
+        {{- /* Tutup blok terakhir --- */}}
+        </ul>
+      </div>
+    </nav>
+  </article>
+{{ end }}

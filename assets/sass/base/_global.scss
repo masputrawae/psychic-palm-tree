@@ -1,0 +1,53 @@
+@use "../abstracts/breakpoints" as b;
+@use "../abstracts/mixins" as m;
+@use "../abstracts/variables" as v;
+
+.sr-only {
+  @include m.visually-hidden();
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(20em, 1fr));
+}
+
+.taxonomy {
+  &__group {
+    border: 1px solid var(--base-border);
+    padding: 1em;
+    box-shadow: var(--second-shadow);
+  }
+
+  h2 {
+    margin-block: 0em;
+  }
+
+  a {
+    text-decoration: none;
+    font-family: v.$font-serif;
+    font-size: v.$fs-lg;
+  }
+}
+
+.float {
+  margin-block: 1.5em 1em;
+  margin-inline: auto;
+}
+
+@include b.min(md) {
+  .float--left {
+    float: left;
+    margin-right: 1rem;
+  }
+
+  .float--right {
+    float: right;
+    margin-left: 1rem;
+  }
+}
+
+.figure svg {
+  max-width: 100%;
+  max-height: fit-content;
+}

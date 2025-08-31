@@ -1,0 +1,38 @@
+{{ define "main" }}
+  <article class="markdown view-content view-content--is-active" id="viewPage">
+    <h1>{{ .Title }}</h1>
+    {{ .Content | safeHTML }}
+
+    {{ $pages := site.RegularPages }}
+    {{ $paginator := .Paginate ($pages.ByDate.Reverse) 10 }}
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Author</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ range $paginator.Pages }}
+            <tr>
+              <td data-label="Title">
+                <a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>
+              </td>
+              <td data-label="Date">{{ .Lastmod.Format "2006/01/02" }}</td>
+              <td data-label="Author">
+                {{ with .GitInfo }}
+                  {{ .AuthorName }}
+                {{ else }}
+                  -
+                {{ end }}
+              </td>
+            </tr>
+          {{ end }}
+        </tbody>
+      </table>
+    </div>
+  </article>
+  {{ partial "pagination.html" . }}
+{{ end }}

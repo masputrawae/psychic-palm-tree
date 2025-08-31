@@ -1,0 +1,40 @@
+<header class="site-sidebar" id="sidebar">
+  <figure class="brand">
+    {{ $img := site.Params.logo | default "images/logo.png" }}
+    {{ $filter := images.Process "resize 150x q100 webp" }}
+    {{ with resources.Get $img }}
+      {{ with . | images.Filter $filter }}
+        <img src="{{ .RelPermalink }}" width="{{ .Width }}" height="{{ .Height }}" alt="Logo {{ site.Title }}" class="brand__logo">
+      {{ end }}
+    {{ end }}
+    <figcaption class="brand__title">{{ site.Title }}</figcaption>
+  </figure>
+
+  <button data-sidebar="sidebar" class="site-sidebar__btn">
+    {{ partial "components/icon.html" (dict "name" "x" "size" 28) }}
+  </button>
+
+  {{ partial "components/menu.html" (dict "menuID" "main" "page" . "label" "Main Menu" ) }}
+  {{ partial "components/setting.html" (dict
+      "label" "Themes"
+      "name" "theme"
+      "checked" "auto"
+      "options" (slice
+          (dict "icon" "circle-half" "value" "auto" "text" "Auto")
+          (dict "icon" "sun" "value" "light" "text" "Light")
+          (dict "icon" "moon-stars" "value" "dark" "text" "Dark")
+      )
+  ) }}
+
+  {{ partial "components/setting.html" (dict
+      "label" "Font Size"
+      "name" "font-size"
+      "checked" "14"
+      "options" (slice
+          (dict "value" "12" "text" "Small")
+          (dict "value" "14" "text" "Default")
+          (dict "value" "16" "text" "Large")
+          (dict "value" "18" "text" "Extra Large")
+      )
+  ) }}
+</header>

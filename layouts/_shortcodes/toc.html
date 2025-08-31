@@ -1,0 +1,6 @@
+<details>
+  <summary>{{ with .Get "title" | default "Table Of Contents"}}{{ . }}{{ end }}</summary>
+  {{ with .Page.TableOfContents }}
+    {{ . | safeHTML | markdownify }}
+  {{ end }}
+</details>

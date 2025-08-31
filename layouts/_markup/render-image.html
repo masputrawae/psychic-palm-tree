@@ -1,0 +1,82 @@
+{{- $caption := "" -}}
+{{- $width := "" -}}
+{{- $height := "" -}}
+{{- $float := "" -}}
+{{- $link := "" -}}
+
+{{- if ne .Title "" -}}
+  {{- $parts := split .Title "|" -}}
+  {{- $caption = index $parts 0 | $.Page.RenderString -}}
+  {{- range $parts -}}
+    {{- if strings.HasPrefix . "width=" -}}
+      {{- $width = replace . "width=" "" -}}
+    {{- end -}}
+    {{- if strings.HasPrefix . "height=" -}}
+      {{- $height = replace . "height=" "" -}}
+    {{- end -}}
+    {{- if strings.HasPrefix . "float=" -}}
+      {{- $float = replace . "float=" "" -}}
+    {{- end -}}
+    {{- if strings.HasPrefix . "link=" -}}
+      {{- $link = replace . "link=" "" -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- $image := .Page.Resources.GetMatch .Destination -}}
+{{- if and (not $image) .Page.File -}}
+  {{- $image = resources.Get (path.Join .Page.File.Dir .Destination) -}}
+{{- end -}}
+
+{{- $isSVG := false -}}
+{{- if $image }}
+  {{- $isSVG = eq $image.MediaType.SubType "svg" -}}
+{{- end -}}
+
+{{- $resized := "" -}}
+{{- if and $image (not $isSVG) }}
+  {{- $resize_param := "800x" -}}
+  {{- if $width }}{{- $resize_param = printf "%sx" $width -}}{{ end -}}
+  {{- $resized = $image.Resize $resize_param -}}
+{{- end -}}
+
+{{ if $isSVG }}
+  {{/*  SVG DI RENDER DI SINI  */}}
+  {{- $svgContent := $image.Content | safeHTML -}}
+  {{- if $width }}
+    {{- $svgContent = replace $svgContent "<svg" (printf "<svg width=\"%spx\"" $width) 1 -}}
+  {{- end }}
+  {{- if $height }}
+    {{- $svgContent = replace $svgContent "<svg" (printf "<svg height=\"%spx\"" $height) 1 -}}
+  {{- end }}
+  <figure class="figure float--{{ $float }}" {{ with $width }}style="max-width: {{ . }}px;"{{ end }}>
+    {{- with $link }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{- end }}
+      {{- $svgContent | safeHTML }}
+    {{- with $link }}</a>{{ end }} <!-- END IMAGE -->
+    {{- if $caption }}
+      <figcaption class="figure__caption">{{ $caption }}</figcaption>
+    {{- end }}
+  </figure>
+
+{{ else }}
+  <figure class="figure float--{{ $float }}" {{ with $width }}style="max-width: {{ . }}px;"{{ end }}>
+    {{- with $link }}<a href="{{ . }}" target="_blank" rel="noopener noreferrer">{{- end }}
+    <img
+      {{- if $resized }}
+        src="{{- $resized.RelPermalink }}"
+        width="{{- $resized.Width }}"
+        height="{{- $resized.Height }}"
+      {{- else }}
+        src="{{ if strings.HasPrefix .Destination "http" }}{{ .Destination }}{{ else }}{{ .Destination | absURL }}{{ end }}"
+        {{- with $width }}width="{{ . }}"{{ end }}
+        {{- with $height }}height="{{ . }}"{{ end }}
+      {{- end }}
+      alt="{{ $caption | plainify }}"
+      title="{{ $caption | plainify }}"
+      loading="lazy"
+      decoding="async"
+      class="figure__image"
+    />{{ with $link }}</a>{{ end }} <!-- END IMAGE -->
+    {{ if $caption }}<figcaption class="figure__caption">{{ $caption }}</figcaption>{{ end }}
+  </figure>
+{{ end }}

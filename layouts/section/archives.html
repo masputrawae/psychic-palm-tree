@@ -1,0 +1,21 @@
+{{ define "main" }}
+  <article class="markdown view-content view-content--is-active" id="viewPage">
+    <h1>{{ .Title }}</h1>
+    {{ .Content | safeHTML }}
+
+
+    <div class="grid">
+      {{ range site.RegularPages.GroupByDate "2006" }}
+        <div class="grid__item">
+          <h2>Year: {{ .Key }}</h2>
+
+          <ul class="archive-list">
+            {{ range .Pages }}
+              <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+            {{ end }}
+          </ul>
+        </div>
+      {{ end }}
+    </div>
+  </article>
+{{ end }}

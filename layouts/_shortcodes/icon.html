@@ -1,0 +1,23 @@
+{{/* 
+EXAMPLE: 
+{{< icon name="0-circle-fill" class="text-red-500" width="24" height="24" >}}
+{{< icon name="0-circle-fill" class="text-red-500" size="24" >}}
+{{< icon name="sun" width="20" >}}
+{{< icon name="moon" fill="red" >}}
+*/}}
+
+{{- $name := .Get "name" | default (.Get "0") -}}
+{{- $size := 16 -}}
+{{- $class := .Get "class" | default "" -}}
+{{- $width := .Get "width" | default 16 | int -}}
+{{- $height := .Get "height" | default 16 | int -}}
+{{- $fill := .Get "fill" | default "currentColor" -}}
+
+{{- partial "components/icon.html" (dict 
+  "name" $name 
+  "class" $class 
+  "width" $width 
+  "height" $height 
+  "fill" $fill
+  "size" $size
+) -}}

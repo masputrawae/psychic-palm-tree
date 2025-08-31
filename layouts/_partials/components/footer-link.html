@@ -1,0 +1,27 @@
+<div class="grid">
+  <nav class="footer-link">
+    <strong class="footer-link__label">Social Media </strong>
+    {{- range site.Menus.social -}}
+      {{- $icon := "" -}}
+      {{- with .Params -}}
+        {{- $icon = .icon | default "globe" -}}
+      {{ end }}
+      <a 
+        class="footer-link__item footer-link__item--social footer-link__item--{{ $icon }}" 
+        href="{{ .URL }}" 
+        target="_blank" 
+        rel="noopener noreferrer"
+      >
+        {{- partial "components/icon.html" (dict "name" $icon "size" 24 "class" "footer-link__icon") -}}
+        {{- .Name -}}
+      </a>
+    {{- end }}
+  </nav>
+
+  <nav class="footer-link">
+    <strong class="footer-link__label">Personal </strong>
+    {{- range site.Menus.footer -}}
+      <a class="footer-link__item footer-link__item--personal">{{- .Name -}}</a>
+    {{- end }}
+  </nav>
+</div>

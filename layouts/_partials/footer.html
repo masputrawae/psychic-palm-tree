@@ -1,0 +1,5 @@
+<footer class="site-footer">
+  {{- partial "components/footer-link.html" . }}
+  <p class="site-footer__copyright">Copyright {{ now.Year }} - <a href="{{ site.BaseURL | relURL }}">{{ site.Title }}</a> | All rights reserved.</p>
+</footer>
+{{- partial "components/footer-script.html" . }}

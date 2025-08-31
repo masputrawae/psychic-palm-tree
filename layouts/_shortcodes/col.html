@@ -1,0 +1,7 @@
+<div class="grid grid--{{ .Get "col" | default "" }}">
+{{ range split .Inner "<--->" }}
+{{ printf "<div class=\"markdown-inner\">" | htmlUnescape | safeHTML }}
+{{ . | markdownify | safeHTML }}
+{{ printf "</div>" | htmlUnescape | safeHTML }}
+{{ end }}
+</div>

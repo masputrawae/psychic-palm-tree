@@ -1,0 +1,15 @@
+<div class="nav">
+  <strong class="nav__label">{{ .label }}</strong>
+  {{- range .options }}
+    <label class="nav__item nav__item--{{ $.name }}">
+      {{ if .icon }}
+        {{- partial "components/icon.html" (dict "name" .icon "size" 18  "class" "nav__icon" ) -}}
+      {{ else }}
+        {{- partial "components/icon.html" (dict "name" "circle" "size" 18 "class" "icon--circel" ) -}}
+        {{ partial "components/icon.html" (dict "name" "check-circle" "size" 18  "class" "icon--check-circle") -}}
+      {{ end }}
+      <span>{{ .text }}</span>
+      <input type="radio" name="{{ $.name }}" value="{{ .value }}" {{ if eq $.checked .value }}checked{{ end }}/>
+    </label>
+  {{- end }}
+</div>

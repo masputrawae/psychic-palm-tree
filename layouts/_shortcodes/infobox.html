@@ -1,0 +1,6 @@
+{{- $float := or (.Get "float") "right" -}}
+{{- $width := or (.Get "width") 200 -}}
+
+<aside class="infobox float--{{ $float }}" style="max-width: {{ $width }}px;">
+  {{ .Inner | .Page.RenderString (dict "display" "block") | safeHTML -}}
+</aside>

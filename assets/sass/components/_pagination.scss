@@ -1,0 +1,50 @@
+@use "../abstracts/mixins" as m;
+@use "../abstracts/variables" as v;
+
+.pagination {
+  @include m.flex-justify(center, center);
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  margin: 3em 0;
+  gap: 0.5em;
+
+  .page-item {
+    border-radius: 0.25em;
+    overflow: hidden;
+  }
+
+  .page-link {
+    @include m.flex-justify(center, center);
+    @include m.transition(all);
+    padding: 0.5em 0.75em;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid var(--base-border);
+    border-radius: 0.25em;
+    font-size: v.$fs-4xl;
+    font-family: v.$font-serif;
+  }
+
+  .page-link:hover:not([aria-disabled="true"]):not([aria-current="page"]) {
+    background-color: var(--second-bg);
+  }
+
+  .page-item.active .page-link {
+    font-weight: bold;
+    background-color: var(--third-bg); 
+    cursor: default;
+  }
+
+  /* disabled pages */
+  .page-item.disabled .page-link {
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .page-link span[aria-hidden="true"] {
+    font-size: 0.9em;
+  }
+}

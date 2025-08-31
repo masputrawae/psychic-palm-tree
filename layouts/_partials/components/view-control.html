@@ -1,0 +1,75 @@
+{{- /*  DISCUSSION DEACTIVE CLASS  */ -}}
+{{- $discussionFalse := (not (.Params.discussion | default site.Params.defaultDiscussion | default true)) -}}
+{{- $discussionClass := "" -}}
+{{- if $discussionFalse -}}
+  {{- $discussionClass = "view-control__btn--is-disable" -}}
+{{- end -}}
+
+{{- $repo := site.Params.ghrepo | default "user/repo" -}}
+{{- $branch := site.Params.branch | default "main" -}}
+{{- $repoBasePath := .Params.repoBasePath | default "content" -}}
+{{- $enableEdit := .Params.edit_page | default site.Params.defaultEditPage | default true -}}
+
+<div class="view-control" id="view-control">
+  <div class="view-control__col view-control__col--start">
+    <button class="view-control__btn view-control__btn--is-active" data-view="viewPage">
+      {{- partial "components/icon.html" (dict "name" "file-earmark" "size" 18) }}
+      <span>Page</span>
+    </button>
+    <button class="view-control__btn {{ $discussionClass }}" data-view="viewDiscussion">
+      {{- partial "components/icon.html" (dict "name" "chat" "size" 18) }}
+      <span>Discussion</span>
+    </button>
+  </div>
+  <div class="view-control__col view-control__col--end">
+    {{- if $enableEdit }}
+      {{- with .File }}
+        <button class="view-control__btn" data-view="viewHistory">
+          {{- partial "components/icon.html" (dict "name" "clock-history" "size" 18) }}
+          <span>History</span>
+        </button>
+        <a 
+          href="https://github.com/{{- $repo -}}/blob/{{- $branch -}}/{{- $repoBasePath -}}/{{- .Path -}}?plain=1" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="view-control__btn"
+        >
+          {{- partial "components/icon.html" (dict "name" "braces" "size" 18) }}
+          <span>View Source</span>
+        </a>
+        <a 
+          href="https://github.com/{{- $repo -}}/edit/{{- $branch -}}/{{- $repoBasePath -}}/{{- .Path -}}?plain=1" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="view-control__btn"
+        >
+          {{- partial "components/icon.html" (dict "name" "pencil-square" "size" 18) }}
+          <span>Edit Page</span>
+        </a>
+      {{- else }}
+        {{- template "disable_edit_page_button" . }}
+      {{- end }}
+    {{- else }}
+      {{- template "disable_edit_page_button" . }}
+    {{- end }}
+    <button class="view-control__btn" data-view="viewSearch">
+      {{- partial "components/icon.html" (dict "name" "search" "size" 18) }}
+      <span>Search</span>
+    </button>
+  </div>
+</div>
+
+{{- define "disable_edit_page_button" }}
+  <button class="view-control__btn view-control__btn--is-disable" data-view="viewHistory" title="Histories Not Found or Disable on This Page">
+    {{- partial "components/icon.html" (dict "name" "clock-history" "size" 18) }}
+    <span>History</span>
+  </button>
+  <button class="view-control__btn view-control__btn--is-disable" title="Source Not Found or Disable on This Page">
+    {{- partial "components/icon.html" (dict "name" "braces" "size" 18) }}
+    <span>View Source</span>
+  </button>
+  <button class="view-control__btn view-control__btn--is-disable" title="File Not Found or Disable on This Page">
+    {{- partial "components/icon.html" (dict "name" "pencil-square" "size" 18) }}
+    <span>Edit Page</span>
+  </button>
+{{- end }}

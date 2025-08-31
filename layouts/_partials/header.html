@@ -1,0 +1,13 @@
+<header class="site-header">
+  <div class="site-header__col">
+    <button data-sidebar="sidebar" class="site-header__btn">
+      <span class="sr-only">Toggle Sidebar Menu</span>
+      {{ partial "components/icon.html" (dict "name" "list" "size" 28) }}
+    </button>
+    <a href="{{ absURL site.BaseURL }}" class="site-header__title">{{ site.Title }}</a>
+  </div>
+  <button data-sidebar="view-control" class="site-header__btn">
+    <span class="sr-only">Toggle Control Menu</span>
+    {{ partial "components/icon.html" (dict "name" "binoculars" "size" 28) }}
+  </button>
+</header>

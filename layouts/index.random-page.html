@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <style>
+      * {
+        background-color: black;
+      }
+    </style>
+  <script>
+  const urls = [{{- $pages := site.RegularPages -}}{{- range $index, $page := $pages -}}"{{ $page.RelPermalink }}"{{ if lt (add $index 1) (len $pages) }},{{ end }}{{- end -}}]
+  const randomIndex = Math.floor(Math.random() * urls.length); window.location.href = urls[randomIndex]
+  </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Page</title>
+  </head>
+  <body></body>
+</html>

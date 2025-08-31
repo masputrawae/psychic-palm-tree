@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html 
+  lang="{{- site.Language.LanguageCode }}" 
+  dir="{{- or site.Language.LanguageDirection `ltr` }}"
+  data-theme="dark">
+<head>
+  {{- partial "head.html" . }}
+</head>
+<body class="site-body">
+  {{- partial "header.html" . }}
+  {{- partial "sidebar.html" . }}
+  <main class="site-main">
+    {{- partial "components/view-control.html" . }}
+    {{- block "main" . }}{{- end }}
+    {{- partial "view-control/discussion.html" . }}
+    {{- partial "view-control/history.html" . }}
+    {{- partial "view-control/search.html" . }}
+  </main>
+  {{- partial "footer.html" . }}
+  <div id="linkpreview"></div>
+</body>
+</html>

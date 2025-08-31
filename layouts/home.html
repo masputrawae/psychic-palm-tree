@@ -1,0 +1,6 @@
+{{ define "main" }}
+  <article class="markdown view-content view-content--is-active" id="viewPage">
+    <h1>{{ .Title }}</h1>
+    {{ .Content | safeHTML }}
+  </article>
+{{ end }}

@@ -1,0 +1,58 @@
+{{- /* Icon partial: Bootstrap Icons only
+
+@param {string} [name]
+@param {string} [class]
+@param {int}    [size]
+@param {int}    [width]
+@param {int}    [height]
+@param {string} [color]
+
+@example: {{ partial "components/icon.html" (dict "name" "alarm") }}
+@example: {{ partial "components/icon.html" (dict "name" "alarm" "size" 24 "color" "red") }}
+@example: {{ partial "components/icon.html" (dict "name" "alarm" "size" 32 "class" "w-8 h-8 text-green-500") }}
+
+@reference: https://icons.getbootstrap.com/
+*/ -}}
+
+{{- $name := "" -}}
+{{- $class := "" -}}
+{{- $size := 16 -}}
+{{- $width := 16 -}}
+{{- $height := 16 -}}
+{{- $color := "" -}}
+
+{{- if (reflect.IsMap .) -}}
+  {{- $name = .name -}}
+  {{- $class = .class | default "" -}}
+  {{- $size = .size | default 16 -}}
+  {{- $width = .width | default $size -}}
+  {{- $height = .height | default $size -}}
+  {{- $color = .color | default "currentColor" -}}
+{{- else -}}
+  {{- $name = . -}}
+{{- end -}}
+
+{{- $path := printf "icons/%s.svg" $name -}}
+{{- with resources.Get $path | resources.Minify -}}
+  {{- $svg := .Content | safeHTML -}}
+  {{- $svg = $svg 
+      | replaceRE `width="[^"]*"` (printf `width="%d"` $width) 
+      | replaceRE `height="[^"]*"` (printf `height="%d"` $height)
+      | replaceRE `<svg` `<svg aria-hidden="true"`
+  -}}
+  {{- if $class }}
+    {{- $svg = $svg | replaceRE `<svg` (printf `<svg class="icon %s"` $class) -}}
+  {{- else }}
+    {{- $svg = $svg | replaceRE `<svg` `<svg class="icon"` -}}
+  {{- end -}}
+  {{- if $color }}
+    {{- if (findRE `fill="[^"]*"` $svg) }}
+      {{- $svg = $svg | replaceRE `fill="[^"]*"` (printf `fill="%s"` $color) -}}
+    {{- else }}
+      {{- $svg = replace $svg "<svg" (printf "<svg fill=\"%s\"" $color) -}}
+    {{- end -}}
+  {{- end -}}
+  {{- $svg | safeHTML -}}
+{{- else -}}
+  <!-- icon not found: {{$path}} -->
+{{- end -}}
