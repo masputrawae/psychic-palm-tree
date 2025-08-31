@@ -21,7 +21,7 @@
   <nav class="footer-link">
     <strong class="footer-link__label">Personal </strong>
     {{- range site.Menus.footer -}}
-      <a class="footer-link__item footer-link__item--personal">{{- .Name -}}</a>
+      <a href="{{ .URL | relURL }}" class="footer-link__item footer-link__item--personal">{{- .Name -}}</a>
     {{- end }}
   </nav>
 </div>

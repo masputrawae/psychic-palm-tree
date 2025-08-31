@@ -1,0 +1,82 @@
+main:
+  - name: Home
+    pageRef: /
+    params:
+      icon: house
+    weight: 10
+  
+  - name: Recent Change
+    pageRef: /recent_change
+    params:
+      icon: exposure
+    weight: 30
+  
+  - name: Random Page
+    url: /random-page.html
+    params:
+      icon: shuffle
+    weight: 40
+  
+  - name: Tags
+    pageRef: /tags
+    params:
+      icon: tags
+    weight: 50
+  
+  - name: Archives
+    pageRef: /archives
+    params:
+      icon: archive
+    weight: 50
+
+footer:
+  - name: About Putra
+    pageRef: /about
+    weight: 10
+  - name: Disclaimer
+    pageRef: /disclaimer
+    weight: 20
+  - name: License
+    pageRef: /license
+    weight: 30
+  - name: Privacy Policy
+    pageRef: /privacy_policy
+    weight: 40
+  - name: Credits
+    pageRef: /credits
+    weight: 50
+  - name: Email
+    url: mailto:masputrawae.official@gmail.com
+    weight: 60
+
+social:
+  - name: Twitter X
+    url: https://example.com/
+    params: 
+      icon: twitter-x
+    weight: 10
+  - name: Instagram
+    url: https://example.com/
+    params: 
+      icon: instagram
+    weight: 20
+  - name: Facebook
+    url: https://example.com/
+    params: 
+      icon: facebook
+    weight: 30
+  - name: Discord
+    url: https://example.com/
+    params: 
+      icon: discord
+    weight: 40
+  - name: Github
+    url: https://example.com/
+    params: 
+      icon: github
+    weight: 50
+  - name: Rss Feed
+    url: index.xml
+    params: 
+      icon: rss
+    weight: 50

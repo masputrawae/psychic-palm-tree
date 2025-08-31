@@ -1,0 +1,62 @@
+goldmark:
+  renderHooks:
+    image:
+      enableDefault: true
+      useEmbedded: auto
+    link:
+      enableDefault: true
+      useEmbedded: auto
+
+  renderer:
+    unsafe: true
+
+  extensions:
+    definitionList: true
+    extras:
+      delete:
+        enable: true
+      insert:
+        enable: true
+      mark:
+        enable: true
+      subscript:
+        enable: true
+      superscript:
+        enable: true
+
+    footnote: true
+
+    passthrough:
+      delimiters:
+        block:
+          - - \[
+            - \]
+          - - $$
+            - $$
+        inline:
+          - - \(
+            - \)
+      enable: true
+
+  parser:
+    wrapStandAloneImageWithinParagraph: false
+    attribute:
+      block: true
+      title: true
+
+tableOfContents:
+  endLevel: 6
+  ordered: false
+  startLevel: 2
+
+highlight:
+  codeFences: true
+  guessSyntax: true
+  style: "github-dark"
+  noClasses: false
+  lineNumbersInTable: false
+  lineNos: false
+  anchorLineNos: false
+  lineAnchors: ""
+  lineNoStart: 1
+  tabWidth: 4
